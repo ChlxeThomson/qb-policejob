@@ -727,7 +727,10 @@ RegisterNetEvent('police:server:CuffPlayer', function(playerId, isSoftcuff)
     local Player = QBCore.Functions.GetPlayer(src)
     local CuffedPlayer = QBCore.Functions.GetPlayer(playerId)
     if not Player or not CuffedPlayer or (not Player.Functions.GetItemByName('handcuffs') and Player.PlayerData.job.type ~= 'leo') then return end
-
+    if Player.PlayerData.metadata['ishandcuffed'] then
+        TriggerClientEvent('QBCore:Notify', src, 'You cannot cuff someone while you are cuffed', 'error')
+        return
+    end
     TriggerClientEvent('police:client:GetCuffed', CuffedPlayer.PlayerData.source, Player.PlayerData.source, isSoftcuff)
 end)
 
