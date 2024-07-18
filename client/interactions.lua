@@ -266,6 +266,10 @@ RegisterNetEvent('police:client:CuffPlayer', function()
             if result then
                 local playerId = GetPlayerServerId(player)
                 if not IsPedInAnyVehicle(GetPlayerPed(player)) and not IsPedInAnyVehicle(PlayerPedId()) then
+                    if isHandcuffed then
+                    QBCore.Functions.Notify("You can't cuff others while you are handcuffed.", "error")
+                    return
+                end
                     TriggerServerEvent('police:server:CuffPlayer', playerId, false)
                     HandCuffAnimation()
                 else
